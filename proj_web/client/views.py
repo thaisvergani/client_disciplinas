@@ -17,7 +17,7 @@ def course(request, id=None):
         form.save()
 
         # Save was successful, so redirect to another page
-        redirect_url = reverse(article_save_success)
+        redirect_url = reverse()
         return redirect(redirect_url)
 
     # if a GET (or any other method) we'll create a blank form
