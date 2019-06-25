@@ -1,48 +1,42 @@
-import requests
-from django.shortcuts import get_object_or_404, redirect, render, reverse
 
-from .forms import CursoForm, AreaForm, DisciplinaForm
+from django.shortcuts import redirect, render
+
+from .forms import CursoForm, AreaForm, DisciplinaForm, RestClient
 
 
-def course(request, pk=None):
+def post_course(request):
+    form = CursoForm(request.POST or None)
+    client = RestClient()
 
-    if pk:
+    if request.POST and form.is_valid():
 
-        form = CursoForm()
-        data = form.get(pk)
-        form = CursoForm(data)
+        request_content = form.cleaned_data
+        item_id = request.POST.get('item_id', None)
 
-    else:
-        form = CursoForm(request.POST or None)
+        if item_id:
+            client.put(item_id, request_content)
+        else:
+            client.post(request_content)
 
-        if request.POST and form.is_valid():
-
-            request_content = form.cleaned_data
-            form.post(request_content)
-
-    return render(request, 'base_form.html', {'form': form, 'items': form.get()})
+    return redirect(get_all_courses)
 
 
 def get_course(request, pk):
+    client = RestClient()
+    data = client.get(pk)
 
+    form = CursoForm(data)
 
-    form = CursoForm()
-
-    if request.POST and form.is_valid():
-        request_content = form.cleaned_data
-        form.post(request_content)
-
-    return render(request, 'base_form.html', {'form': form, 'items': form.get()})
+    return render(request, 'base_form.html', {'form': form, 'item_id': pk, 'items': client.get()})
 
 
 def delete_course(request, pk):
+    client = RestClient()
+    response = client.delete(pk)
+    return redirect(get_all_courses)
+
+
+def get_all_courses(request):
     form = CursoForm(None)
-    response = form.delete(pk)
-    return redirect(course)
-
-
-def get_courses(pk=None):
-    courses_base_url = "http://localhost:8080/universidade/rest/cursos"
-    response = requests.get(courses_base_url, params={'id': pk})
-    response = response.json()
-    return response
+    client = RestClient()
+    return render(request, 'base_form.html', {'form': form, 'items': client.get()})
