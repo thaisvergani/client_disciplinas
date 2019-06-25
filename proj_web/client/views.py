@@ -1,29 +1,48 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
+import requests
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 
-from .forms import CourseForm
+from .forms import CursoForm, AreaForm, DisciplinaForm
 
 
+def course(request, pk=None):
 
-def course(request, id=None):
-    if id:
-        article = get_courses(pk=id)
+    if pk:
 
-    form = CourseForm(request.POST or None, instance=article)
+        form = CursoForm()
+        data = form.get(pk)
+        form = CursoForm(data)
 
-    # if this is a POST request we need to process the form data
-    if request.POST and form.is_valid():
-        form.save()
-
-        # Save was successful, so redirect to another page
-        redirect_url = reverse()
-        return redirect(redirect_url)
-
-    # if a GET (or any other method) we'll create a blank form
     else:
-        form = CourseForm()
+        form = CursoForm(request.POST or None)
 
-    return render(request, 'base_form.html', {'form': form})
+        if request.POST and form.is_valid():
+
+            request_content = form.cleaned_data
+            form.post(request_content)
+
+    return render(request, 'base_form.html', {'form': form, 'items': form.get()})
+
+
+def get_course(request, pk):
+
+
+    form = CursoForm()
+
+    if request.POST and form.is_valid():
+        request_content = form.cleaned_data
+        form.post(request_content)
+
+    return render(request, 'base_form.html', {'form': form, 'items': form.get()})
+
+
+def delete_course(request, pk):
+    form = CursoForm(None)
+    response = form.delete(pk)
+    return redirect(course)
+
 
 def get_courses(pk=None):
+    courses_base_url = "http://localhost:8080/universidade/rest/cursos"
+    response = requests.get(courses_base_url, params={'id': pk})
+    response = response.json()
+    return response
