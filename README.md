@@ -27,7 +27,7 @@ $ pip install -r requirements_file.txt
 $ python manage.py runserver
 ```
 
-## Configuraçes
+## Configurações
 
 Para alterar o consumo dos web services entre SOAP/REST é preciso alterar o arquivo proj_web/client/settings.py na linha 12
 
