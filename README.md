@@ -1,23 +1,42 @@
-# Client Disciplinas
+# Client Disciplinas 📚
 
 Implementa o consumo dos webservices em REST e SOAP:
+
 * Curso
 * Disciplina
 * Area
 
-Running the Project Locally
-First, clone the repository to your local machine:
+Os web services estão no projeto https://github.com/gmilani/UniversidadeJava
 
-git clone https://github.com/sibtc/restful-apis-example.git
-Install the requirements:
+## Setting Up the Environment
 
-pip install -r requirements.txt
-PS: If you have issues installing either gunicorn or psycopg2, you can remove them from the requirements.txt file and run the command again.
+```
+$ virtualenv venv --python=python3
 
-Create the database:
+$ . venv/bin/activate
 
-python manage.py migrate
-Finally, run the development server:
+$ git clone https://github.com/thaisvergani/client_disciplinas.git
 
-python manage.py runserver
-The project will be available at 127.0.0.1:8000.
+$ cd proj_web/
+
+$ pip install -r requirements_file.txt
+```
+
+## Running the application
+```
+$ python manage.py runserver
+```
+
+## Configuraçes
+
+Para alterar o consumo dos web services entre SOAP/REST é preciso alterar o arquivo proj_web/client/settings.py na linha 12
+
+### Consumir os Web Services REST:
+```
+WS = 'REST'
+```
+### Consumir os Web Services SOAP:
+
+```
+WS = 'SOAP'
+```
