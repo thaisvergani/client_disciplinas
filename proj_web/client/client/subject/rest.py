@@ -1,9 +1,9 @@
 import requests
-from .base import BaseClient
+from ..base import BaseClient
 
 
 class RestClient(BaseClient):
-    def __init__(self, base_url="http://localhost:8080/universidade/rest/cursos/"):
+    def __init__(self, base_url="http://localhost:8080/universidade/rest/disciplinas/"):
         self.base_url = base_url
 
     def post(self, content):
@@ -19,5 +19,5 @@ class RestClient(BaseClient):
         return response.json()
 
     def delete(self, content):
-        response = requests.delete(self.base_url + content.get('id'))
+        response = requests.delete(self.base_url + str(content.get('id')))
         return response

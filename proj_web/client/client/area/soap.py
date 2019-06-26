@@ -1,6 +1,6 @@
 from zeep import Client, helpers as zeep_helper
 
-from .base import BaseClient
+from ..base import BaseClient
 
 
 class SoapClient(BaseClient):

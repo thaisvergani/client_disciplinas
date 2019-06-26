@@ -28,7 +28,7 @@ def post_subject(request):
     client = CLIENT()
 
     if request.POST:
-        if  form.is_valid():
+        if form.is_valid():
             request_content = form.cleaned_data
             item_id = request.POST.get('item_id', None)
             request_content['curso'] = COURSES_CLIENT().get(request_content['curso'])
