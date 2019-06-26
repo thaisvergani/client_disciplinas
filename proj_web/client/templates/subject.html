@@ -10,9 +10,10 @@
     <title>Cadastro</title>
 </head>
 <body>
+{% include 'menu.html'%}
 
 <div class="container">
-    <form method="post" action="{% url 'post_course'%}" novalidate>
+    <form method="post" action="{% url 'post_subject'%}" novalidate>
         {% csrf_token %}
         <input name="item_id" type="hidden" value="{{ item_id }}">
 
@@ -29,7 +30,10 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nome</th>
-            <th colspan="2"></th>
+            <th scope="col">Carga Horaria</th>
+            <th scope="col">Curso</th>
+            <th scope="col">Area</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -37,9 +41,12 @@
         <tr>
             <td> {{item.codigo}}</td>
             <td> {{item.nome}}</td>
-            <td colspan="2">
-                <a href="{% url 'delete_course' pk=item.id %}"><i class="fas fa-trash"></i></a>
-                <a href="{% url 'get_course' pk=item.id %}"><i class="fas fa-edit"></i></a>
+            <td> {{item.cargaHoraria}}</td>
+            <td> {{item.curso.nome}}</td>
+            <td> {{item.area.nome}}</td>
+            <td class="text-right">
+                <a href="{% url 'delete_subject' pk=item.id %}"><i class="fas fa-trash"></i></a>
+                <a href="{% url 'get_subject' pk=item.id %}"><i class="fas fa-edit"></i></a>
 
             </td>
 

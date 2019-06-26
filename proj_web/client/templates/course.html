@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/8e3c829b8d.js"></script>
+
+    <title>Cadastro</title>
+</head>
+<body>
+{% include 'menu.html'%}
+
+<div class="container">
+    <form method="post" action="{% url 'post_course'%}" novalidate>
+        {% csrf_token %}
+        <input name="item_id" type="hidden" value="{{ item_id }}">
+
+        {% include 'includes/bs4_form.html' with form=form %}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+<div class="container">
+
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th ></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td> {{item.codigo}}</td>
+            <td> {{item.nome}}</td>
+            <td class="text-right">
+                <a href="{% url 'delete_course' pk=item.id %}"><i class="fas fa-trash"></i></a>
+                <a href="{% url 'get_course' pk=item.id %}"><i class="fas fa-edit"></i></a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+</body>
+</html>
